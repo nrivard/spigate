@@ -58,7 +58,7 @@ The following are the external signals that interface with the computer:
 | /RES | Input | Reset when low |
 | /IRQ | Output | Transmission complete when low and interrupts enabled |
 
-The following are external signals to SPI devices:
+The following are external signals that interface with SPI devices:
 
 | Signal | I/O? | Description |
 | --- | --- | --- |
@@ -66,6 +66,8 @@ The following are external signals to SPI devices:
 | MOSI | Output | Serial output to device |
 | MISO | Input | Serial input from device |
 | /CS0..3 | Output | Device select lines, low is assertion |
+
+_Note: a `/` prefix indicates that signal is active-low_
 
 ### Control Register
 
@@ -132,6 +134,42 @@ The design uses 12 74HC series chips:
 | 74HC08 | 1 | Quad-AND gate |
 
 The design is relatively efficient, with only a single AND gate, a single NOT gate, and 1 of the counters being un-utilized.
+The [schematic](spigate_schem.pdf) is organized into subsystems as much as possible and the PCB has some of the higher level functions marked on the silkscreen.
 
-### Schematic
+## Testing
 
+2 levels of testing were done to verify the design.
+
+### Digital Simulation
+
+The first level of testing was done using [Digital](https://github.com/hneemann/Digital).
+![Screenshot of simulated circuit in Digital](images/digital_sim.png)
+
+To run the simulation, open [SPIGate.dig](digital/SPIGate.dig) in Digital.
+It's helpful to run it in stepping mode so you can synchronize signals to occur at the same time, which is closer to how it actually runs on a computer.
+
+### Breadboarding
+
+After the design was verified in simulation, I implemented it on a breadboard and connected it to my real computer.
+![Screenshot of breadboarded circuit connected to a homebrew 6502 computer](images/breadboard.jpg)
+
+It was connected to a real SD card and communication was verified using a logic analyzer.
+![Screenshot of logic analyzer output](images/traffic.png)
+
+### PCB
+
+A PCB was designed and ordered but has not been tested yet.
+![Render of PCB](images/pcb_render.png)
+
+## What about other computers?
+
+SPI Gate was designed to easily integrate into a 6502-based design.
+You should be able to hook the following signals up directly: CLK, /RES, RW, D0..7, A0, and /IRQ.
+
+You should only need to generate /CE appropriately.
+Note: the design here _qualifies_ /CE with CLK (ie, when /CE is low and CLK is high, device is selected).
+
+If you want to integrate with another type of machine, you may have to change how SPI Gate is selected (maybe changing or removing qualification) so that data is sampled at the correct time.
+In this case, care was taken to sample data for a write on the negative edge of the system clock.
+
+If your machine also has separate /RD and /WR signals (like an x86 system), you will have to have some logic to move to the RW signal expected here or adapt the design itself to accommodate separate signals.
