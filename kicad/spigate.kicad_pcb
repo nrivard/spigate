@@ -5541,7 +5541,7 @@
 		(descr "20-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils), Socket")
 		(tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil Socket")
 		(property "Reference" "U12"
-			(at 3.81 11.425 90)
+			(at 3.81 7.7928 90)
 			(layer "F.SilkS")
 			(uuid "1b720b99-6feb-4a41-9bd6-6ac426a8c137")
 			(effects
@@ -6087,7 +6087,7 @@
 		(descr "20-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils), Socket")
 		(tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil Socket")
 		(property "Reference" "U11"
-			(at 3.76936 11.3742 90)
+			(at 3.74396 7.5642 90)
 			(layer "F.SilkS")
 			(uuid "b78f5609-7c08-4de1-8cd0-271cf75dba28")
 			(effects
